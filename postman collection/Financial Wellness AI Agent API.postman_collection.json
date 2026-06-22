@@ -1,0 +1,896 @@
+{
+  "info": {
+    "_postman_id": "897af56c-16ba-4941-9001-a5d05a0f96e5",
+    "name": "Financial Wellness AI Agent API",
+    "description": "Complete API collection for Financial Wellness & Tax AI Agent",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "18974135"
+  },
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Login - Employee",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"john.doe@company.com\",\n  \"password\": \"demo123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login - Admin",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@company.com\",\n  \"password\": \"admin123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login - Invalid Credentials",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"wrong@company.com\",\n  \"password\": \"wrong123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/logout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "logout"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "description": "Authentication and authorization endpoints"
+    },
+    {
+      "name": "Payslip Management",
+      "item": [
+        {
+          "name": "Upload Payslip - PDF",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"{{userId}}\",\n  \"fileBase64\": \"JVBERi0xLjQKMSAwIG9iago8PAovVGl0bGUgKFNhbXBsZSBQYXlzbGlwKQovQ3JlYXRvciAoV2ViS2l0KQo+PgplbmRvYmoKMiAwIG9iago8PAovVHlwZSAvQ2F0YWxvZwovUGFnZXMgMyAwIFIKL1BhZ2VMYXlvdXQgL1NpbmdsZVBhZ2UKL1ZpZXdlclByZWZlcmVuY2VzIDQgMCBSCj4+CmVuZG9iago...\",\n  \"fileName\": \"payslip_june_2026.pdf\",\n  \"mimeType\": \"application/pdf\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/payslip/upload",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "payslip",
+                "upload"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Upload Payslip - Image",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"{{userId}}\",\n  \"fileBase64\": \"iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==\",\n  \"fileName\": \"payslip_june_2026.png\",\n  \"mimeType\": \"image/png\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/payslip/upload",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "payslip",
+                "upload"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Payroll Records",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/payslip/records",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "payslip",
+                "records"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Specific Payroll Record",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/payslip/records/{{recordId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "payslip",
+                "records",
+                "{{recordId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Compare Two Months",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"month1\": \"January\",\n  \"year1\": 2026,\n  \"month2\": \"June\",\n  \"year2\": 2026\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/payslip/compare",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "payslip",
+                "compare"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get YTD Summary",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/payslip/ytd",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "payslip",
+                "ytd"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Trend Analysis",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/payslip/trends",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "payslip",
+                "trends"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "description": "Upload and manage payslip documents"
+    },
+    {
+      "name": "AI Queries",
+      "item": [
+        {
+          "name": "Ask General Question",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"question\": \"Why is my net salary lower this month?\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/query/ask",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "query",
+                "ask"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Ask About HRA",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"question\": \"How much HRA did I receive and what is the exemption?\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/query/ask",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "query",
+                "ask"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Ask About Tax",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"question\": \"What is my total tax for the year and how can I save more?\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/query/ask",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "query",
+                "ask"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Ask About Deductions",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"question\": \"What deductions were applied this month?\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/query/ask",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "query",
+                "ask"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Ask About PF",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"question\": \"Explain PF to me and how much has been contributed?\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/query/ask",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "query",
+                "ask"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Ask About Salary Comparison",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"question\": \"Compare my January 2026 salary with June 2026 salary\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/query/ask",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "query",
+                "ask"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Explain Salary Component",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"component\": \"specialAllowance\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/query/explain",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "query",
+                "explain"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get FAQs",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/query/faqs",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "query",
+                "faqs"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "description": "AI-powered queries for payroll understanding"
+    },
+    {
+      "name": "Tax Services",
+      "item": [
+        {
+          "name": "Get Tax Summary",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/tax/summary",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "tax",
+                "summary"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Simulate Tax Savings - 50K",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"additionalInvestment\": 50000,\n  \"section\": \"sec80C\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/tax/simulate",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "tax",
+                "simulate"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Simulate Tax Savings - 1L",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"additionalInvestment\": 100000,\n  \"section\": \"sec80C\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/tax/simulate",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "tax",
+                "simulate"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Simulate Tax Savings - 1.5L",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"additionalInvestment\": 150000,\n  \"section\": \"sec80C\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/tax/simulate",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "tax",
+                "simulate"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Simulate Tax Savings - Section 80D",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"additionalInvestment\": 25000,\n  \"section\": \"sec80D\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/tax/simulate",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "tax",
+                "simulate"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Investment Checklist",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/tax/checklist",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "tax",
+                "checklist"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Tax Recommendations",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/tax/recommendations",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "tax",
+                "recommendations"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "description": "Tax calculation and simulation endpoints"
+    },
+    {
+      "name": "Security Tests",
+      "item": [
+        {
+          "name": "Access Without Token",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/payslip/records",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "payslip",
+                "records"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Access With Invalid Token",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{bearer_token_0ocl}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/payslip/records",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "payslip",
+                "records"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Access Other User's Data",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/payslip/records?userId=user-456",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "payslip",
+                "records"
+              ],
+              "query": [
+                {
+                  "key": "userId",
+                  "value": "user-456"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "description": "Security and authorization test scenarios"
+    },
+    {
+      "name": "System Health",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/health",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "health"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "description": "Health check and monitoring endpoints"
+    }
+  ],
+  "variable": [
+    {
+      "key": "bearer_token_0ocl",
+      "secret": true
+    }
+  ]
+}

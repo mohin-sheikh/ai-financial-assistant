@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Wellness AI Agent</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            color: #1a365d;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .subtitle {
+            color: #718096;
+            margin-bottom: 30px;
+        }
+
+        .section {
+            background: #f7fafc;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .section h3 {
+            color: #2d3748;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .upload-area {
+            border: 2px dashed #cbd5e0;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            background: #f7fafc;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .upload-area:hover {
+            border-color: #667eea;
+            background: #edf2f7;
+        }
+
+        .btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .btn:hover {
+            background: #5a67d8;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #48bb78;
+        }
+
+        .btn-secondary:hover {
+            background: #38a169;
+        }
+
+        .btn-danger {
+            background: #fc8181;
+        }
+
+        .btn-danger:hover {
+            background: #f56565;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .input-group input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .response-box {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border: 1px solid #e2e8f0;
+            white-space: pre-wrap;
+            min-height: 60px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge-success {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+
+        .badge-warning {
+            background: #fefcbf;
+            color: #744210;
+        }
+
+        .badge-info {
+            background: #bee3f8;
+            color: #2a4365;
+        }
+
+        .file-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .status-text {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .status-success {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+
+        .status-error {
+            background: #fed7d7;
+            color: #742a2a;
+        }
+
+        .status-loading {
+            background: #bee3f8;
+            color: #2a4365;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        @media (max-width: 600px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+
+            .input-group {
+                flex-direction: column;
+            }
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #e2e8f0;
+            border-radius: 50%;
+            border-top-color: #667eea;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Financial Wellness AI Agent</h1>
+        <p class="subtitle">Your AI-powered assistant for understanding payslips, taxes, and financial planning</p>
+
+        <!-- Login Section -->
+        <div class="section" id="loginSection">
+            <h3>Login</h3>
+            <div class="input-group">
+                <input type="email" id="loginEmail" placeholder="Email" value="john.doe@company.com">
+                <input type="password" id="loginPassword" placeholder="Password" value="demo123">
+                <button class="btn" onclick="login()">Login</button>
+            </div>
+            <div id="loginStatus" class="response-box">Use john.doe@company.com / demo123</div>
+        </div>
+
+        <!-- Main Content (hidden until login) -->
+        <div id="mainContent" style="display: none;">
+            <!-- Upload Section -->
+            <div class="section">
+                <h3>Upload Payslip</h3>
+                <div class="upload-area" onclick="document.getElementById('payslipInput').click()">
+                    <p>Click to select payslip (PDF, PNG, JPG)</p>
+                    <input type="file" id="payslipInput" accept=".pdf,.png,.jpg,.jpeg" style="display: none;">
+                </div>
+                <div class="file-info">
+                    <span id="fileName">No file selected</span>
+                    <button class="btn" onclick="uploadPayslip()">Upload & Process</button>
+                </div>
+                <div id="uploadStatus" class="response-box">Upload status will appear here</div>
+            </div>
+
+            <!-- Query Section -->
+            <div class="section">
+                <h3>Ask About Your Payroll</h3>
+                <div class="input-group">
+                    <input type="text" id="userQuery" placeholder="e.g., Why is my net salary lower this month?">
+                    <button class="btn" onclick="askQuery()">Ask AI</button>
+                </div>
+                <div id="queryResponse" class="response-box">Ask a question about your payslip</div>
+            </div>
+
+            <!-- Tax Simulation Section -->
+            <div class="section">
+                <h3>Tax-Saving Simulation</h3>
+                <p>Additional Section 80C Investment (₹):</p>
+                <div class="input-group">
+                    <input type="number" id="additionalInvestment" value="50000" min="0" step="1000">
+                    <button class="btn btn-secondary" onclick="simulateTax()">Simulate Tax Savings</button>
+                </div>
+                <div id="taxSimResponse" class="response-box">Tax simulation results will appear here</div>
+            </div>
+
+            <!-- Quick Tools -->
+            <div class="grid-2">
+                <div class="section">
+                    <h3>Checklist</h3>
+                    <button class="btn" onclick="getChecklist()">Generate Checklist</button>
+                    <div id="checklistResponse" class="response-box">Click to generate</div>
+                </div>
+                <div class="section">
+                    <h3>YTD Summary</h3>
+                    <button class="btn" onclick="getYTD()">View YTD Summary</button>
+                    <div id="ytdResponse" class="response-box">Click to view</div>
+                </div>
+            </div>
+
+            <!-- Quick Questions -->
+            <div class="section">
+                <h3>Quick Questions</h3>
+                <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                    <button class="btn btn-secondary"
+                        onclick="quickQuestion('How much HRA did I receive?')">HRA</button>
+                    <button class="btn btn-secondary"
+                        onclick="quickQuestion('What deductions were applied this month?')">Deductions</button>
+                    <button class="btn btn-secondary" onclick="quickQuestion('Explain PF to me')">PF</button>
+                    <button class="btn btn-secondary" onclick="quickQuestion('How is my net salary calculated?')">Net
+                        Salary</button>
+                    <button class="btn btn-secondary"
+                        onclick="quickQuestion('Compare this month vs last month')">Compare</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentUser = null;
+        let selectedFile = null;
+        let authToken = null;
+
+        // Login function
+        async function login() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const status = document.getElementById('loginStatus');
+
+            status.innerHTML = '<div class="loading-spinner"></div> Logging in...';
+
+            try {
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+                if (response.ok) {
+                    currentUser = data.user;
+                    authToken = data.token;
+                    document.getElementById('loginSection').style.display = 'none';
+                    document.getElementById('mainContent').style.display = 'block';
+                    status.innerHTML = 'Logged in as ' + currentUser.name;
+                    document.getElementById('loginStatus').className = 'response-box status-success';
+                } else {
+                    status.innerHTML = 'Login failed: ' + (data.error || 'Unknown error');
+                    document.getElementById('loginStatus').className = 'response-box status-error';
+                }
+            } catch (error) {
+                status.innerHTML = 'Login error: ' + error.message;
+                document.getElementById('loginStatus').className = 'response-box status-error';
+            }
+        }
+
+        // File selection
+        document.getElementById('payslipInput').addEventListener('change', function (e) {
+            selectedFile = e.target.files[0];
+            document.getElementById('fileName').textContent = selectedFile ? selectedFile.name : 'No file selected';
+        });
+
+        // Get file base64
+        function getFileBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => {
+                    const base64String = reader.result.split(',')[1];
+                    resolve(base64String);
+                };
+                reader.onerror = error => reject(error);
+            });
+        }
+
+        // Upload payslip
+        async function uploadPayslip() {
+            if (!selectedFile) {
+                document.getElementById('uploadStatus').innerHTML = 'Please select a file first.';
+                document.getElementById('uploadStatus').className = 'response-box status-error';
+                return;
+            }
+
+            const status = document.getElementById('uploadStatus');
+            status.innerHTML = '<div class="loading-spinner"></div> Processing payslip...';
+            status.className = 'response-box status-loading';
+
+            try {
+                const base64 = await getFileBase64(selectedFile);
+                const mimeType = selectedFile.type || 'application/pdf';
+                const fileName = selectedFile.name;
+
+                const response = await fetch('/api/payslip/upload', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify({
+                        userId: currentUser.id,
+                        fileBase64: base64,
+                        fileName: fileName,
+                        mimeType: mimeType
+                    })
+                });
+
+                const data = await response.json();
+                if (response.ok) {
+                    status.innerHTML = `Payslip processed successfully!\n${JSON.stringify(data.document.extractedData, null, 2)}`;
+                    status.className = 'response-box status-success';
+                } else {
+                    status.innerHTML = 'Error: ' + (data.error || 'Unknown error');
+                    status.className = 'response-box status-error';
+                }
+            } catch (error) {
+                status.innerHTML = 'Upload failed: ' + error.message;
+                status.className = 'response-box status-error';
+            }
+        }
+
+        // Ask AI query
+        async function askQuery() {
+            const query = document.getElementById('userQuery').value;
+            if (!query) {
+                document.getElementById('queryResponse').innerHTML = '⚠️ Please enter a question.';
+                document.getElementById('queryResponse').className = 'response-box status-error';
+                return;
+            }
+
+            const status = document.getElementById('queryResponse');
+            status.innerHTML = '<div class="loading-spinner"></div> Thinking...';
+            status.className = 'response-box status-loading';
+
+            try {
+                const response = await fetch('/api/query/ask', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify({
+                        userId: currentUser.id,
+                        question: query
+                    })
+                });
+
+                const data = await response.json();
+                if (response.ok) {
+                    status.innerHTML = data.response;
+                    status.className = 'response-box status-success';
+                } else {
+                    status.innerHTML = 'Error: ' + (data.error || 'Unknown error');
+                    status.className = 'response-box status-error';
+                }
+            } catch (error) {
+                status.innerHTML = 'Query failed: ' + error.message;
+                status.className = 'response-box status-error';
+            }
+        }
+
+        // Quick question
+        function quickQuestion(question) {
+            document.getElementById('userQuery').value = question;
+            askQuery();
+        }
+
+        // Tax simulation
+        async function simulateTax() {
+            const amount = parseInt(document.getElementById('additionalInvestment').value) || 0;
+            const status = document.getElementById('taxSimResponse');
+            status.innerHTML = '<div class="loading-spinner"></div> Running simulation...';
+            status.className = 'response-box status-loading';
+
+            try {
+                const response = await fetch('/api/tax/simulate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify({
+                        userId: currentUser.id,
+                        additionalInvestment: amount
+                    })
+                });
+
+                const data = await response.json();
+                if (response.ok) {
+                    status.innerHTML = `Tax Savings: ₹${data.result.taxSavings.toLocaleString()}\n` +
+                        `Monthly Savings: ₹${data.result.monthlySavings.toFixed(2)}\n` +
+                        `ROI: ${data.result.roi}\n\n` +
+                        `${data.explanation}`;
+                    status.className = 'response-box status-success';
+                } else {
+                    status.innerHTML = 'Error: ' + (data.error || 'Unknown error');
+                    status.className = 'response-box status-error';
+                }
+            } catch (error) {
+                status.innerHTML = 'Simulation failed: ' + error.message;
+                status.className = 'response-box status-error';
+            }
+        }
+
+        // Get checklist
+        async function getChecklist() {
+            const status = document.getElementById('checklistResponse');
+            status.innerHTML = '<div class="loading-spinner"></div> Generating checklist...';
+            status.className = 'response-box status-loading';
+
+            try {
+                const response = await fetch('/api/tax/checklist', {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+
+                const data = await response.json();
+                if (response.ok) {
+                    status.innerHTML = data.formatted;
+                    status.className = 'response-box status-success';
+                } else {
+                    status.innerHTML = 'Error: ' + (data.error || 'Unknown error');
+                    status.className = 'response-box status-error';
+                }
+            } catch (error) {
+                status.innerHTML = 'Failed: ' + error.message;
+                status.className = 'response-box status-error';
+            }
+        }
+
+        // Get YTD summary
+        async function getYTD() {
+            const status = document.getElementById('ytdResponse');
+            status.innerHTML = '<div class="loading-spinner"></div> Loading YTD summary...';
+            status.className = 'response-box status-loading';
+
+            try {
+                const response = await fetch('/api/payslip/ytd', {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+
+                const data = await response.json();
+                if (response.ok) {
+                    status.innerHTML = `YTD Summary\n` +
+                        `Total Records: ${data.totalRecords}\n` +
+                        `YTD Gross: ₹${data.yearToDate.gross.toLocaleString()}\n` +
+                        `YTD Net: ₹${data.yearToDate.net.toLocaleString()}\n` +
+                        `YTD Tax Paid: ₹${data.yearToDate.taxPaid.toLocaleString()}\n` +
+                        `YTD PF: ₹${data.yearToDate.pf.toLocaleString()}\n\n` +
+                        `Latest Month: ${data.latestMonth?.month || 'N/A'}\n` +
+                        `   Gross: ₹${data.latestMonth?.gross.toLocaleString() || 'N/A'}\n` +
+                        `   Net: ₹${data.latestMonth?.net.toLocaleString() || 'N/A'}`;
+                    status.className = 'response-box status-success';
+                } else {
+                    status.innerHTML = 'Error: ' + (data.error || 'Unknown error');
+                    status.className = 'response-box status-error';
+                }
+            } catch (error) {
+                status.innerHTML = 'Failed: ' + error.message;
+                status.className = 'response-box status-error';
+            }
+        }
+
+        // Enter key support
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') {
+                const active = document.activeElement;
+                if (active && active.id === 'userQuery') {
+                    askQuery();
+                }
+                if (active && active.id === 'loginPassword') {
+                    login();
+                }
+            }
+        });
+
+        // Auto-login for demo
+        window.onload = function () {
+            setTimeout(login, 500);
+        };
+    </script>
+</body>
+
+</html>
